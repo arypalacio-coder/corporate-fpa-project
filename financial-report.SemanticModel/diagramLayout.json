@@ -1,0 +1,113 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 541.97469395337237,
+            "y": 376.36255612711966
+          },
+          "nodeIndex": "dim_chart_of_accounts",
+          "nodeLineageTag": "d49f11b2-350e-49dd-b4f8-9eb1041d7134",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1309.4856454103169,
+            "y": 417.146703217756
+          },
+          "nodeIndex": "dim_fiscal_calendar",
+          "nodeLineageTag": "76656e50-01b6-45fa-856e-64d524755802",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 36
+          },
+          "nodeIndex": "dim_cost_center",
+          "nodeLineageTag": "e37bac41-578c-4334-8216-f51d336ac7a5",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 36
+          },
+          "nodeIndex": "dim_entity",
+          "nodeLineageTag": "1d19d3b6-173b-4300-87b5-baae8a4f6280",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 0
+          },
+          "nodeIndex": "fct_general_ledger_daily",
+          "nodeLineageTag": "f5d08113-a037-42c0-9195-cfaa2a1b2fa5",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1420,
+            "y": 36
+          },
+          "nodeIndex": "fct_budget_allocations_monthly",
+          "nodeLineageTag": "fe0c2e62-d501-4df7-a302-73d1bb19b7aa",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1162.0253060466275,
+            "y": 280.573351608878
+          },
+          "nodeIndex": "_Measures",
+          "nodeLineageTag": "508d956f-1594-4a38-afb5-cfec1ff1fd6e",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas las tablas",
+      "zoomValue": 63.287087723234038,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas las tablas",
+  "defaultDiagram": "Todas las tablas"
+}

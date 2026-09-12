@@ -1,0 +1,124 @@
+table _Measures
+	lineageTag: 508d956f-1594-4a38-afb5-cfec1ff1fd6e
+
+	measure 'Actual Amount' = SUM(fct_general_ledger_daily[net_amount])
+		formatString: \$#,0;(\$#,0);\$0
+		lineageTag: bcaf844c-2225-476f-827a-c0eb60e0a4bb
+
+	measure 'Budget Amount' = SUM(fct_budget_allocations_monthly[budgeted_amount])
+		formatString: \$#,0;(\$#,0);\$0
+		lineageTag: 78c3d267-bf9f-42d3-81e3-1ac067548659
+
+	measure 'Actual Polarized' =
+			
+			SUMX(
+			    dim_chart_of_accounts,
+			    [Actual Amount] * dim_chart_of_accounts[display_polarity_factor]
+			)
+		formatString: \$#,0;(\$#,0);\$0
+		lineageTag: c57c8982-88bd-46da-bc1c-d4d2647ff028
+
+	measure 'Budget Polarized' =
+			
+			SUMX(
+			    dim_chart_of_accounts,
+			    [Budget Amount] * dim_chart_of_accounts[display_polarity_factor]
+			)
+		formatString: \$#,0;(\$#,0);\$0
+		lineageTag: 178dda54-6528-4f2f-942f-1afa80cd40c5
+
+	measure 'Budget Variance $' = [Actual Polarized] - [Budget Polarized]
+		formatString: +\$#,0;-\$#,0;\$0
+		lineageTag: 0107fe9e-9577-402e-bf41-2541b5435adf
+
+	measure 'Budget Variance %' =
+			
+			DIVIDE(
+			    [Budget Variance $],
+			    ABS([Budget Polarized]),
+			    0
+			)
+		formatString: +0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 4a67f688-6c50-41a1-beae-6bdbb174bdb7
+
+	measure 'Actual YTD' =
+			
+			TOTALYTD(
+			    [Actual Polarized],
+			    dim_fiscal_calendar[date]
+			)
+		formatString: \$#,0;(\$#,0);\$0
+		lineageTag: 95075ddf-3dec-4efc-ae08-6f65dea80d41
+
+	measure 'Budget YTD' =
+			
+			TOTALYTD(
+			    [Budget Polarized],
+			    dim_fiscal_calendar[date]
+			)
+		formatString: \$#,0;(\$#,0);\$0
+		lineageTag: 17ce172e-1846-4fb5-9201-e05f18d300c7
+
+	measure 'Actual TTM' =
+			
+			CALCULATE(
+			    [Actual Polarized],
+			    DATESINPERIOD(
+			        dim_fiscal_calendar[date],
+			        MAX(dim_fiscal_calendar[date]),
+			        -12,
+			        MONTH
+			    )
+			)
+		formatString: \$#,0;(\$#,0);\$0
+		lineageTag: a5a7fea8-50e4-417d-991b-b64269515ec2
+
+	measure 'Revenues Actual' =
+			
+			CALCULATE(
+			    [Actual Amount],
+			    dim_chart_of_accounts[account_category] = "Revenues"
+			)
+		formatString: \$#,0;(\$#,0);\$0
+		lineageTag: 6a569525-35fe-4a8e-ac3f-068f270722c1
+
+	measure 'Revenues Budget' =
+			
+			CALCULATE(
+			    [Budget Amount],
+			    dim_chart_of_accounts[account_category] = "Revenues"
+			)
+		formatString: \$#,0;(\$#,0);\$0
+		lineageTag: 2b357ab5-91a4-4cb9-a410-39df3ce9b6a2
+
+	measure 'OPEX Actual' =
+			
+			CALCULATE(
+			    [Actual Amount],
+			    dim_chart_of_accounts[account_category] = "Operating Expenses"
+			)
+		formatString: \$#,0;(\$#,0);\$0
+		lineageTag: a2aac6a3-a483-4b2d-9170-8c5e83718adb
+
+	measure 'OPEX Budget' =
+			
+			CALCULATE(
+			    [Budget Amount],
+			    dim_chart_of_accounts[account_category] = "Operating Expenses"
+			)
+		formatString: \$#,0;(\$#,0);\$0
+		lineageTag: e279d074-0a30-43d4-843b-621d853e800d
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				  Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Columna 1" = _t]),
+				    #"Columnas quitadas" = Table.RemoveColumns(Origen,{"Columna 1"})
+				in
+				  #"Columnas quitadas"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,48 @@
+table dim_cost_center
+	lineageTag: e37bac41-578c-4334-8216-f51d336ac7a5
+
+	column cost_center_id
+		dataType: int64
+		formatString: 0
+		lineageTag: d1b835b9-9a41-4434-a5d9-15cabb086774
+		summarizeBy: none
+		sourceColumn: cost_center_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost_center_name
+		dataType: string
+		lineageTag: 5fc72742-8090-40bf-a96b-3fa4ab596af8
+		summarizeBy: none
+		sourceColumn: cost_center_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost_center_code
+		dataType: string
+		lineageTag: c014c702-483c-4939-8c88-994cbe2bb167
+		summarizeBy: none
+		sourceColumn: cost_center_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_group
+		dataType: string
+		lineageTag: 92c6ec69-48bc-4490-bac2-948b1584e1bf
+		summarizeBy: none
+		sourceColumn: department_group
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_cost_center = m
+		mode: import
+		source =
+				let
+				  Origen = Csv.Document(File.Contents("C:\Users\Ary Palacios\Desktop\corporate-fpa-project\Data\exports\dim_cost_center.csv"), [Delimiter = ",", Columns = 4, QuoteStyle = QuoteStyle.None]),
+				  #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+				  #"Tipo de columna cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {{"cost_center_id", Int64.Type}, {"cost_center_name", type text}, {"cost_center_code", type text}, {"department_group", type text}}, "es")
+				in
+				  #"Tipo de columna cambiado"
+
+	annotation PBI_ResultType = Table
+

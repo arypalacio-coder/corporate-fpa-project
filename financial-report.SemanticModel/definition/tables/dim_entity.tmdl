@@ -1,0 +1,48 @@
+table dim_entity
+	lineageTag: 1d19d3b6-173b-4300-87b5-baae8a4f6280
+
+	column entity_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 7276e656-6300-4332-83d0-e1bf0115f8c7
+		summarizeBy: none
+		sourceColumn: entity_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column entity_name
+		dataType: string
+		lineageTag: 4ce8f17c-9767-4985-8437-3fcd77654e1d
+		summarizeBy: none
+		sourceColumn: entity_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column jurisdiction
+		dataType: string
+		lineageTag: 3e5195f7-8619-4a56-9d40-a4026dca95da
+		summarizeBy: none
+		sourceColumn: jurisdiction
+
+		annotation SummarizationSetBy = Automatic
+
+	column functional_currency
+		dataType: string
+		lineageTag: b5b13665-bc08-4c4f-813e-e6f2d7a4990b
+		summarizeBy: none
+		sourceColumn: functional_currency
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_entity = m
+		mode: import
+		source =
+				let
+				  Origen = Csv.Document(File.Contents("C:\Users\Ary Palacios\Desktop\corporate-fpa-project\Data\exports\dim_entity.csv"), [Delimiter = ",", Columns = 4, QuoteStyle = QuoteStyle.None]),
+				  #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+				  #"Tipo de columna cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {{"entity_id", Int64.Type}, {"entity_name", type text}, {"jurisdiction", type text}, {"functional_currency", type text}}, "es")
+				in
+				  #"Tipo de columna cambiado"
+
+	annotation PBI_ResultType = Table
+

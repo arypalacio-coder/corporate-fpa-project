@@ -1,0 +1,58 @@
+table dim_chart_of_accounts
+	lineageTag: d49f11b2-350e-49dd-b4f8-9eb1041d7134
+
+	column account_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 24b498bc-4050-4f0e-8984-4fb6af33dd9e
+		summarizeBy: none
+		sourceColumn: account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column account_name
+		dataType: string
+		lineageTag: 9c03bcd5-f926-4866-ba0a-e396d95de749
+		summarizeBy: none
+		sourceColumn: account_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column parent_account_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 6f22f56a-2a98-407f-8180-f608fba55111
+		summarizeBy: sum
+		sourceColumn: parent_account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column account_category
+		dataType: string
+		lineageTag: 937c90c6-b909-4cf1-ae07-6fe1fbb7b7bf
+		summarizeBy: none
+		sourceColumn: account_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column display_polarity_factor
+		dataType: int64
+		formatString: 0
+		lineageTag: b19fc88a-1213-4834-bc17-9cb965c8daf2
+		summarizeBy: sum
+		sourceColumn: display_polarity_factor
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_chart_of_accounts = m
+		mode: import
+		source =
+				let
+				  Origen = Csv.Document(File.Contents("C:\Users\Ary Palacios\Desktop\corporate-fpa-project\Data\exports\dim_chart_of_accounts.csv"), [Delimiter = ",", Columns = 5, QuoteStyle = QuoteStyle.None]),
+				  #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+				  #"Tipo de columna cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {{"account_id", Int64.Type}, {"account_name", type text}, {"parent_account_id", Int64.Type}, {"account_category", type text}, {"display_polarity_factor", Int64.Type}}, "es")
+				in
+				  #"Tipo de columna cambiado"
+
+	annotation PBI_ResultType = Table
+

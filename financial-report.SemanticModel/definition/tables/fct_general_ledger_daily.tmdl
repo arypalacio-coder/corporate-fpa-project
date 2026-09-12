@@ -1,0 +1,80 @@
+table fct_general_ledger_daily
+	lineageTag: f5d08113-a037-42c0-9195-cfaa2a1b2fa5
+
+	column transaction_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 79fefb58-5bdc-43ba-819d-b12f358a5f4b
+		summarizeBy: none
+		sourceColumn: transaction_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column entity_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 778f5132-d091-41dc-8a49-cc0867fbd2ca
+		summarizeBy: none
+		sourceColumn: entity_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column account_id
+		dataType: int64
+		formatString: 0
+		lineageTag: da416fbe-7581-47f0-9301-bf2a1187b826
+		summarizeBy: none
+		sourceColumn: account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost_center_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 67bfc718-28fa-4d43-8b67-f2b96327b4e1
+		summarizeBy: none
+		sourceColumn: cost_center_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column debit_amount
+		dataType: int64
+		formatString: 0
+		lineageTag: 7a1b221b-3d01-4437-8c8f-9a285d42354f
+		summarizeBy: sum
+		sourceColumn: debit_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column credit_amount
+		dataType: int64
+		formatString: 0
+		lineageTag: d6697eff-3e9e-462e-a452-7879a984f980
+		summarizeBy: sum
+		sourceColumn: credit_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column net_amount
+		dataType: int64
+		formatString: 0
+		lineageTag: a3908f49-3f0b-469b-bb14-19b0d910943e
+		summarizeBy: sum
+		sourceColumn: net_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fct_general_ledger_daily = m
+		mode: import
+		source =
+				let
+				  Origen = Csv.Document(File.Contents("C:\Users\Ary Palacios\Desktop\corporate-fpa-project\Data\exports\fct_general_ledger_daily.csv"), [Delimiter = ",", Columns = 7, QuoteStyle = QuoteStyle.None]),
+				  #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+				  #"Tipo de columna cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {{"transaction_date", type date}, {"entity_id", Int64.Type}, {"account_id", Int64.Type}, {"cost_center_id", Int64.Type}, {"debit_amount", Int64.Type}, {"credit_amount", Int64.Type}, {"net_amount", Int64.Type}}, "es")
+				in
+				  #"Tipo de columna cambiado"
+
+	annotation PBI_ResultType = Table
+

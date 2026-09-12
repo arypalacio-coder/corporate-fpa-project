@@ -1,0 +1,4 @@
+entity_id,entity_name,jurisdiction,functional_currency
+1,Global Holdings Corp (Parent),US-DELAWARE,USD
+2,North America Operating Sub LLC,US-NEWYORK,USD
+3,EMEA Commercial Services Ltd,UK-LONDON,USD

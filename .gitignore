@@ -1,0 +1,20 @@
+# Power BI Desktop - Archivos temporales y binarios no versionables
+**/~*
+*.tmp
+*.bak
+*.pbit
+
+# Power BI Project (.pbip) - Configuraciones de usuario y caché local
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+**/cache.abf
+
+# Bases de datos locales y archivos pesados
+*.duckdb
+*.db
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.iniData/Raw/ 

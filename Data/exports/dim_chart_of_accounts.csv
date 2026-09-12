@@ -1,0 +1,9 @@
+account_id,account_name,parent_account_id,account_category,display_polarity_factor
+1,Total P&L,,Consolidated P&L,1
+10,Gross Margin Summary,1,Operating Performance,1
+20,Operating Expenses (OPEX),1,Operating Performance,-1
+100,Product Revenue,10,Revenues,1
+101,Services Revenue,10,Revenues,1
+102,Direct Cost of Goods Sold,10,Cost of Goods Sold,-1
+103,Research & Development (R&D),20,Operating Expenses,-1
+104,"Selling, General & Administrative (SG&A)",20,Operating Expenses,-1

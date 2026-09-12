@@ -1,0 +1,28 @@
+model Model
+	culture: es-ES
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-CL
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["dim_chart_of_accounts","dim_fiscal_calendar","dim_cost_center","dim_entity","fct_general_ledger_daily","fct_budget_allocations_monthly","_Measures"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table dim_chart_of_accounts
+ref table dim_fiscal_calendar
+ref table DateTableTemplate_1b234428-92bd-4c09-9429-0fadbe1d1386
+ref table LocalDateTable_9e91bcb1-1d98-4665-86e0-501a6892c112
+ref table LocalDateTable_cad0ce0c-145d-4ec1-b63f-70388e151361
+ref table LocalDateTable_bd765846-ca83-4c67-9330-e930223c8561
+ref table dim_cost_center
+ref table dim_entity
+ref table fct_general_ledger_daily
+ref table fct_budget_allocations_monthly
+ref table _Measures
+
+ref cultureInfo es-ES
+
