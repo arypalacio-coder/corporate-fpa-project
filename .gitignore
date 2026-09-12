@@ -1,20 +1,23 @@
-# Power BI Desktop - Archivos temporales y binarios no versionables
-**/~*
+# Large Raw Data & Local Databases
+Data/Raw/
+Data/Raw/**
+Data/database/
+
+# Power BI local settings, cache and temporary files
+**/.pbi/
 *.tmp
-*.bak
 *.pbit
+**/ms-pbi.cache*
 
-# Power BI Project (.pbip) - Configuraciones de usuario y caché local
-**/.pbi/localSettings.json
-**/.pbi/cache.abf
-**/cache.abf
+# Python cache & environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
 
-# Bases de datos locales y archivos pesados
-*.duckdb
-*.db
-*.log
-
-# Sistema operativo
-.DS_Store
+# OS artifacts
 Thumbs.db
-desktop.iniData/Raw/ 
+desktop.ini
+.DS_Store
