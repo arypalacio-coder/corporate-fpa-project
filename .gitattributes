@@ -1,0 +1,5 @@
+# Exclude automation scripts from language statistics to reflect data modeling focus
+scripts/** linguist-vendored
+
+# Ensure SQL scripts are accurately tracked
+sql/** linguist-detectable=true
