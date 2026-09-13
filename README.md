@@ -1,3 +1,4 @@
+[![Financial Data Quality & Governance Pipeline](https://github.com/arypalacio-coder/corporate-fpa-project/actions/workflows/data_quality_pipeline.yml/badge.svg)](https://github.com/arypalacio-coder/corporate-fpa-project/actions/workflows/data_quality_pipeline.yml)
 # Corporate FP&A Data & Reporting Architecture
 
 Arquitectura analitica integral para FP&A orientada a la consolidacion contable, modelado dimensional y reportes ejecutivos en Power BI (PBIP + TMDL).
