@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python Environment
-        uses: setup-python@v5
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -29,12 +29,7 @@ jobs:
           python -c "
           import duckdb
 
-          # Conexión o inicialización de DuckDB para validación contable
           con = duckdb.connect()
-
-          # Simulación y verificación del principio de balance cero
-          # En caso de persistencia física en archivo .duckdb:
-          # con = duckdb.connect('data/mart/fpa_corporate.duckdb')
 
           query = '''
           SELECT 
