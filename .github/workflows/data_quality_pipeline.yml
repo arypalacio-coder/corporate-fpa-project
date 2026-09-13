@@ -49,5 +49,5 @@ jobs:
           test -f docs/executive_memo_findings.md || exit 1
           test -f docs/trial_balance_reconciliation_proof.md || exit 1
           test -f docs/semantic_lineage_architecture.md || exit 1
-          test -f data/dictionary/financial_data_dictionary.md || exit 1
+          test -f Data/dictionary/financial_data_dictionary.md || exit 1
           echo "Todos los artefactos de gobernanza y documentación están presentes."
