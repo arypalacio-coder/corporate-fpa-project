@@ -1,0 +1,53 @@
+table fct_balance_sheet_monthly
+	lineageTag: c6f25f58-2d01-417f-986c-7d9a6c1e2040
+
+	column month_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e61b0733-77f8-42fe-9558-2bb4728ba353
+		summarizeBy: none
+		sourceColumn: month_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column entity_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 83d4373c-44e4-4125-9bc6-afa94fd0fdc0
+		summarizeBy: none
+		sourceColumn: entity_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column account_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 81cbe8bb-86cb-48a7-8a34-4ac02ab0743e
+		summarizeBy: sum
+		sourceColumn: account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column ending_balance
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$0.00
+		lineageTag: 7d9c717d-abdb-4bdc-b88d-e0c64a431296
+		summarizeBy: sum
+		sourceColumn: ending_balance
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fct_balance_sheet_monthly = m
+		mode: import
+		source =
+				let
+				  Origen = Csv.Document(File.Contents("C:\Users\Ary Palacios\Desktop\corporate-fpa-project\Data\exports\fct_balance_sheet_monthly.csv"), [Delimiter = ",", Columns = 4, QuoteStyle = QuoteStyle.None]),
+				  #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+				  #"Tipo de columna cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {{"month_date", type date}, {"entity_id", Int64.Type}, {"account_id", Int64.Type}, {"ending_balance", type number}}, "en-US")
+				in
+				  #"Tipo de columna cambiado"
+
+	annotation PBI_ResultType = Table
+

@@ -39,6 +39,14 @@ table fct_budget_allocations_monthly
 
 		annotation SummarizationSetBy = Automatic
 
+	column budget_amount = [budgeted_amount]
+		dataType: int64
+		formatString: 0
+		lineageTag: 71b3e105-06a9-4675-9c88-29eb5fcb1931
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fct_budget_allocations_monthly = m
 		mode: import
 		source =

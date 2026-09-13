@@ -1,0 +1,49 @@
+table dim_balance_accounts
+	lineageTag: 4962b2da-8ed2-46f2-9daf-e92bbe9c4166
+
+	column account_id
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: f9c36000-a0e9-42a5-948a-cee00ca37e1a
+		summarizeBy: none
+		sourceColumn: account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column account_name
+		dataType: string
+		lineageTag: 61f07347-a6ac-43ba-9ae4-584e584f8f97
+		summarizeBy: none
+		sourceColumn: account_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column balance_category
+		dataType: string
+		lineageTag: 680bcb28-d52d-4ab9-92d2-3a7ef79abfbd
+		summarizeBy: none
+		sourceColumn: balance_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column financial_statement_class
+		dataType: string
+		lineageTag: e1ffb716-1532-432b-afbc-2532d83074df
+		summarizeBy: none
+		sourceColumn: financial_statement_class
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_balance_accounts = m
+		mode: import
+		source =
+				let
+				  Origen = Csv.Document(File.Contents("C:\Users\Ary Palacios\Desktop\corporate-fpa-project\Data\exports\dim_balance_accounts.csv"), [Delimiter = ",", Columns = 4, QuoteStyle = QuoteStyle.None]),
+				  #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+				  #"Tipo de columna cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {{"account_id", Int64.Type}, {"account_name", type text}, {"balance_category", type text}, {"financial_statement_class", type text}}, "es")
+				in
+				  #"Tipo de columna cambiado"
+
+	annotation PBI_ResultType = Table
+

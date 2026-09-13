@@ -44,6 +44,48 @@ table dim_chart_of_accounts
 
 		annotation SummarizationSetBy = Automatic
 
+	column Account_Hierarchical_Path = PATH(dim_chart_of_accounts[account_id], dim_chart_of_accounts[parent_account_id])
+		dataType: string
+		lineageTag: f1cfe8c0-f83c-4ff6-ad2c-fd01cbca2731
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Reporting_Level_1 = LOOKUPVALUE(dim_chart_of_accounts[account_name], dim_chart_of_accounts[account_id], PATHITEM(dim_chart_of_accounts[Account_Hierarchical_Path], 1, INTEGER))
+		dataType: string
+		lineageTag: 87b40ff5-e763-4697-9513-79e45717a855
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Reporting_Level_2 = COALESCE(LOOKUPVALUE(dim_chart_of_accounts[account_name], dim_chart_of_accounts[account_id], PATHITEM(dim_chart_of_accounts[Account_Hierarchical_Path], 2, INTEGER)), dim_chart_of_accounts[Reporting_Level_1])
+		dataType: string
+		lineageTag: 4be24edf-5001-471a-a56c-ea957c1db239
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Reporting_Level_3 = COALESCE(LOOKUPVALUE(dim_chart_of_accounts[account_name], dim_chart_of_accounts[account_id], PATHITEM(dim_chart_of_accounts[Account_Hierarchical_Path], 3, INTEGER)), dim_chart_of_accounts[Reporting_Level_2])
+		dataType: string
+		lineageTag: 29ddef19-8842-4fc5-a464-ef7fe2c20a3c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column account_class =
+			SWITCH(
+				dim_chart_of_accounts[account_category],
+				"Revenues", "Revenue",
+				"Cost of Goods Sold", "COGS",
+				"Operating Expenses", "OpEx",
+				dim_chart_of_accounts[account_category]
+			)
+		dataType: string
+		lineageTag: b0605d54-ce3e-4fae-bfa3-0a6ef2f7b8d1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_chart_of_accounts = m
 		mode: import
 		source =

@@ -109,6 +109,186 @@ table _Measures
 		formatString: \$#,0;(\$#,0);\$0
 		lineageTag: e279d074-0a30-43d4-843b-621d853e800d
 
+	measure Base_GL_Transaction_Sum = SUM(fct_general_ledger_daily[net_amount])
+		lineageTag: fc86f33c-0412-4aaf-9aeb-165a7a79eb68
+
+	measure Reported_Financial_Value = SUMX(dim_chart_of_accounts, [Base_GL_Transaction_Sum] * COALESCE(dim_chart_of_accounts[display_polarity_factor], 1))
+		lineageTag: cb53a9ef-2a9c-424a-a80e-2828975ce0a7
+
+	measure Actuals = [Reported_Financial_Value]
+		formatString: #,##0;(#,##0);"-"
+		lineageTag: 624778d5-42b2-4b17-a02f-0cf35d04c505
+
+	measure Budget =
+			SUMX(
+			    dim_chart_of_accounts,
+			    DIVIDE(CALCULATE(SUM(fct_budget_allocations_monthly[budget_amount])), 12, 0)
+			    * COALESCE(dim_chart_of_accounts[display_polarity_factor], 1)
+			)
+		formatString: #,##0;(#,##0);"-"
+		lineageTag: 58198284-e3c0-41ca-aaf8-cf93344df0ba
+
+	measure Budget_Variance_Absolute = [Actuals] - [Budget]
+		formatString: +#,##0;-#,##0;"-"
+		lineageTag: c5edcbc2-6a2e-47c5-8f5d-4e1bed931746
+
+	measure Budget_Variance_Pct = DIVIDE([Budget_Variance_Absolute], ABS([Budget]), 0)
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 896c9340-ad50-4b47-a9e7-14ddf2c29104
+
+	measure Revenue = CALCULATE([Reported_Financial_Value], dim_chart_of_accounts[account_class] = "Revenue")
+		lineageTag: 2f1bef2f-bc54-443f-9604-cae3a2e30db4
+
+	measure COGS = CALCULATE([Reported_Financial_Value], dim_chart_of_accounts[account_class] = "COGS")
+		lineageTag: 4b4fbc42-59c9-4077-8757-1473173d85d0
+
+	measure Gross_Margin =
+			CALCULATE(
+			    [Actuals],
+			    dim_chart_of_accounts[Reporting_Level_2] = "Gross Margin Summary"
+			)
+		formatString: #,##0;(#,##0);"-"
+		lineageTag: eb26ea38-ef6d-459c-b8c8-92b240f16c31
+
+	measure Gross_Margin_Pct =
+			DIVIDE(
+			    [Gross_Margin],
+			    CALCULATE([Actuals], dim_chart_of_accounts[account_category] = "Revenues"),
+			    0
+			)
+		formatString: 0.0%
+		lineageTag: 2c6df385-9212-440a-a522-dcd0261741d2
+
+	measure OpEx = CALCULATE([Reported_Financial_Value], dim_chart_of_accounts[account_class] = "OpEx")
+		lineageTag: d93a08dc-4400-4e38-888f-0678e747b971
+
+	measure EBITDA =
+			CALCULATE(
+			    [Actuals],
+			    dim_chart_of_accounts[Reporting_Level_1] = "Total P&L"
+			)
+		formatString: #,##0;(#,##0);"-"
+		lineageTag: f0f80f5a-0ca7-43f0-9a4a-1daa90c36b8a
+
+	measure EBITDA_Margin_Pct =
+			DIVIDE(
+			    [EBITDA],
+			    CALCULATE([Actuals], dim_chart_of_accounts[account_category] = "Revenues"),
+			    0
+			)
+		formatString: 0.0%
+		lineageTag: f70521c8-ef97-414b-b9a9-ff2395fa7e02
+
+	measure Accounts_Receivable =
+			CALCULATE(
+			    SUM(fct_balance_sheet_monthly[ending_balance]),
+			    fct_balance_sheet_monthly[account_id] = 120
+			)
+		formatString: #,##0;(#,##0);"-"
+		lineageTag: c3d4e5f6-a1b2-4c3d-ae4f-5a6b7c8d9e0f
+
+	measure Days_Sales_Outstanding_DSO =
+			VAR AR = [Accounts_Receivable]
+			VAR RevenueMonthly =
+			    CALCULATE(
+			        [Actuals],
+			        dim_chart_of_accounts[account_category] = "Revenues"
+			    )
+			VAR RevenueDaily = DIVIDE(RevenueMonthly, 30)
+			VAR Result = DIVIDE(AR, RevenueDaily)
+			RETURN
+			    IF(
+			        ISBLANK(AR) || ISBLANK(RevenueDaily) || RevenueDaily = 0,
+			        BLANK(),
+			        Result
+			    )
+		formatString: 0.0 "dias"
+		lineageTag: e5f6a1b2-c3d4-4e5f-c06b-7c8d9e0f1a2b
+
+	measure Price_Variance =
+			SUMX(
+			    fct_sales_subledger,
+			    (fct_sales_subledger[actual_unit_price] - fct_sales_subledger[budget_unit_price]) * fct_sales_subledger[units_sold]
+			)
+		formatString: +#,#0;-#,#0;"-"
+		lineageTag: a1b2c3d4-e5f6-4a1b-8c2d-3e4f5a6b7c8d
+
+	measure Volume_Variance =
+			SUMX(
+			    fct_sales_subledger,
+			    (fct_sales_subledger[units_sold] - fct_sales_subledger[budget_units]) * fct_sales_subledger[budget_unit_price]
+			)
+		formatString: +#,#0;-#,#0;"-"
+		lineageTag: b2c3d4e5-f6a1-4b2c-9d3e-4f5a6b7c8d9e
+
+	measure Net_Working_Capital =
+			VAR CurrentAssets =
+			    CALCULATE(
+			        SUM(fct_balance_sheet_monthly[ending_balance]),
+			        KEEPFILTERS(fct_balance_sheet_monthly[account_id] IN {120, 130})
+			    )
+			VAR CurrentLiabilities =
+			    CALCULATE(
+			        SUM(fct_balance_sheet_monthly[ending_balance]),
+			        KEEPFILTERS(fct_balance_sheet_monthly[account_id] IN {210, 220})
+			    )
+			RETURN
+			    CurrentAssets - CurrentLiabilities
+		formatString: #,##0;(#,##0);"-"
+		lineageTag: f6a1b2c3-d4e5-4f6a-d17c-8d9e0f1a2b3c
+
+	measure Budget_EBITDA =
+			CALCULATE(
+			    [Budget],
+			    dim_chart_of_accounts[Reporting_Level_1] = "Total P&L"
+			)
+		formatString: #,##0;(#,##0);"-"
+		lineageTag: a0b1c2d3-e4f5-4a6b-7c8d-9e0f1a2b3c4d
+
+	measure Cost_OpEx_Variance =
+			VAR TotalRevenueVar = [Price_Variance] + [Volume_Variance]
+			VAR TotalEBITDAVar = [EBITDA] - [Budget_EBITDA]
+			RETURN
+			    TotalEBITDAVar - TotalRevenueVar
+		formatString: +#,##0;-#,##0;"-"
+		lineageTag: b1c2d3e4-f5a6-4b7c-8d9e-0f1a2b3c4d5e
+
+	measure Waterfall_Bridge_Amount =
+			SWITCH(
+			    SELECTEDVALUE(dim_variance_bridge[Step_Order]),
+			    1, [Budget_EBITDA],
+			    2, [Price_Variance],
+			    3, [Volume_Variance],
+			    4, [Cost_OpEx_Variance],
+			    BLANK()
+			)
+		formatString: +#,##0;-#,##0;"-"
+		lineageTag: c2d3e4f5-a6b7-4c8d-9e0f-1a2b3c4d5e6f
+
+	measure Net_Income = [EBITDA]
+		formatString: #,##0;(#,##0);"-"
+		lineageTag: 41118857-664c-469c-86ea-10ef83548537
+
+	measure Depreciation_Amortization = 0
+		formatString: #,##0;(#,##0);"-"
+		lineageTag: 79e18b54-d30e-40dd-9f3a-7d2b6818ef69
+
+	measure Delta_Net_Working_Capital =
+			[Net_Working_Capital] -
+			CALCULATE([Net_Working_Capital], PREVIOUSMONTH(dim_fiscal_calendar[date]))
+		formatString: #,##0;(#,##0);"-"
+		lineageTag: 21cb5989-28a5-4c52-9d03-013cb54ba956
+
+	measure Operating_Cash_Flow = [Net_Income] + [Depreciation_Amortization] - [Delta_Net_Working_Capital]
+		formatString: #,##0;(#,##0);"-"
+		lineageTag: 79fca2b8-f8e8-4745-a763-055dc6f6c73e
+
+	measure Free_Cash_Flow =
+			[Operating_Cash_Flow] -
+			CALCULATE([Actuals], dim_chart_of_accounts[account_id] = 103)
+		formatString: #,##0;(#,##0);"-"
+		lineageTag: d2bf5ca7-e2ca-42e0-8e68-2c18489da464
+
 	partition _Measures = m
 		mode: import
 		source =

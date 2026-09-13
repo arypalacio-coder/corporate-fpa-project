@@ -4,7 +4,7 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 0,
+        "x": 714.40002441406216,
         "y": 0
       },
       "nodes": [
@@ -98,10 +98,62 @@
             "width": 234
           },
           "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1496.0253060466275,
+            "y": 218.573351608878
+          },
+          "nodeIndex": "dim_balance_accounts",
+          "nodeLineageTag": "4962b2da-8ed2-46f2-9daf-e92bbe9c4166",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1730.0253060466275,
+            "y": 292.573351608878
+          },
+          "nodeIndex": "dim_variance_bridge",
+          "nodeLineageTag": "7f8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 934.25296592327049,
+            "y": 421.36761355472504
+          },
+          "nodeIndex": "fct_balance_sheet_monthly",
+          "nodeLineageTag": "c6f25f58-2d01-417f-986c-7d9a6c1e2040",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2014.0253060466275,
+            "y": 220.573351608878
+          },
+          "nodeIndex": "fct_sales_subledger",
+          "nodeLineageTag": "d88ebe57-7eb2-4fc2-89c8-5a044b17b371",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "Todas las tablas",
-      "zoomValue": 63.287087723234038,
+      "zoomValue": 100.00000000000004,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,

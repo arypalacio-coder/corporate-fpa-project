@@ -1,18 +1,3 @@
-relationship 6622488d-85c9-4e97-9ee3-64ec883daf77
-	joinOnDateBehavior: datePartOnly
-	fromColumn: dim_fiscal_calendar.date
-	toColumn: LocalDateTable_9e91bcb1-1d98-4665-86e0-501a6892c112.Date
-
-relationship 6da87f44-e3ba-4cdd-8cc6-2434daa6d20b
-	joinOnDateBehavior: datePartOnly
-	fromColumn: dim_fiscal_calendar.first_day_of_month
-	toColumn: LocalDateTable_cad0ce0c-145d-4ec1-b63f-70388e151361.Date
-
-relationship 1efef25f-9e1f-43b9-a51b-e84c58739535
-	joinOnDateBehavior: datePartOnly
-	fromColumn: dim_fiscal_calendar.year_month
-	toColumn: LocalDateTable_bd765846-ca83-4c67-9330-e930223c8561.Date
-
 relationship AutoDetected_340760cb-d38e-4910-b4c2-753fa2880b84
 	fromColumn: fct_general_ledger_daily.account_id
 	toColumn: dim_chart_of_accounts.account_id
@@ -40,4 +25,24 @@ relationship 65c9ed2c-d017-2d34-888e-ea7cf2c295e6
 relationship bc08965a-a078-761f-c1c9-87a1c89a9721
 	fromColumn: fct_budget_allocations_monthly.budget_month
 	toColumn: dim_fiscal_calendar.date
+
+relationship 67cbab85-d430-42a7-a3a6-6ee40a955336
+	fromColumn: fct_balance_sheet_monthly.entity_id
+	toColumn: dim_entity.entity_id
+
+relationship 5a7d2f13-49a0-4a13-8233-e2ea47bbc635
+	fromColumn: fct_sales_subledger.transaction_date
+	toColumn: dim_fiscal_calendar.date
+
+relationship 36507a71-9274-46e8-935b-0590273006e4
+	fromColumn: fct_sales_subledger.entity_id
+	toColumn: dim_entity.entity_id
+
+relationship 0877371d-588f-5fce-f9f0-d85ec84f994c
+	fromColumn: fct_balance_sheet_monthly.month_date
+	toColumn: dim_fiscal_calendar.date
+
+relationship fct_balance_sheet_monthly_to_dim_balance_accounts
+	fromColumn: fct_balance_sheet_monthly.account_id
+	toColumn: dim_balance_accounts.account_id
 

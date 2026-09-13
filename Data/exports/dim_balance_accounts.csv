@@ -1,0 +1,6 @@
+account_id,account_name,balance_category,financial_statement_class
+110,Cash and Cash Equivalents,Cash & Equivalents,Asset
+120,Accounts Receivable,Receivables,Asset
+130,Inventory,Inventory,Asset
+210,Accounts Payable,Payables,Liability
+220,Accrued Operating Liabilities,Accrued Expenses,Liability
