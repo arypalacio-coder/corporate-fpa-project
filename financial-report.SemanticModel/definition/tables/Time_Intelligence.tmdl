@@ -1,0 +1,45 @@
+﻿table Time_Intelligence
+	lineageTag: c1a2b3d4-0001-4000-8000-000000000001
+
+	calculationGroup
+		precedence: 10
+
+		calculationItem 'Current Period' = SELECTEDMEASURE()
+
+		calculationItem 'YTD' = 
+				CALCULATE(
+					SELECTEDMEASURE(),
+					DATESYTD('Dim_Date'[Date])
+				)
+
+		calculationItem 'PY' = 
+				CALCULATE(
+					SELECTEDMEASURE(),
+					SAMEPERIODLASTYEAR('Dim_Date'[Date])
+				)
+
+		calculationItem 'YoY Variance Absolute' = 
+				VAR _Current = SELECTEDMEASURE()
+				VAR _Prior = CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Dim_Date'[Date]))
+				RETURN
+					IF(NOT ISBLANK(_Current) && NOT ISBLANK(_Prior), _Current - _Prior)
+
+		calculationItem 'YoY Variance Percentage' = 
+				VAR _Current = SELECTEDMEASURE()
+				VAR _Prior = CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Dim_Date'[Date]))
+				VAR _Diff = _Current - _Prior
+				RETURN
+					DIVIDE(_Diff, _Prior)
+			formatStringDefinition = "0.0%"
+
+	column 'Time Calculation'
+		dataType: string
+		lineageTag: c1a2b3d4-0002-4000-8000-000000000002
+		sourceColumn: [Name]
+		sortByColumn: Ordinal
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		lineageTag: c1a2b3d4-0003-4000-8000-000000000003
+		sourceColumn: [Ordinal]

@@ -26,3 +26,5 @@ ref table dim_variance_bridge
 
 ref cultureInfo es-ES
 
+ref table Time_Intelligence
+ref table Scenario_Control
