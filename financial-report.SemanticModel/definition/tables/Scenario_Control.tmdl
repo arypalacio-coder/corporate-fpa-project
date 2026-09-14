@@ -1,49 +1,51 @@
-﻿table Scenario_Control
+table Scenario_Control
 	lineageTag: c2a3b4d5-0001-4000-8000-000000000001
 
 	calculationGroup
 		precedence: 20
 
-		calculationItem 'Actuals' = 
+		calculationItem Actuals =
 				CALCULATE(
 					SELECTEDMEASURE(),
 					'Fact_GeneralLedger'[Scenario] = "Actual"
 				)
 
-		calculationItem 'Budget' = 
+		calculationItem Budget =
 				CALCULATE(
 					SELECTEDMEASURE(),
 					'Fact_GeneralLedger'[Scenario] = "Budget"
 				)
 
-		calculationItem 'Forecast' = 
+		calculationItem Forecast =
 				CALCULATE(
 					SELECTEDMEASURE(),
 					'Fact_GeneralLedger'[Scenario] = "Forecast"
 				)
 
-		calculationItem 'Variance vs Budget' = 
+		calculationItem 'Variance vs Budget' =
 				VAR _Act = CALCULATE(SELECTEDMEASURE(), 'Fact_GeneralLedger'[Scenario] = "Actual")
 				VAR _Bud = CALCULATE(SELECTEDMEASURE(), 'Fact_GeneralLedger'[Scenario] = "Budget")
 				RETURN
 					IF(NOT ISBLANK(_Act) && NOT ISBLANK(_Bud), _Act - _Bud)
 
-		calculationItem 'Variance % vs Budget' = 
+		calculationItem 'Variance % vs Budget' =
 				VAR _Act = CALCULATE(SELECTEDMEASURE(), 'Fact_GeneralLedger'[Scenario] = "Actual")
 				VAR _Bud = CALCULATE(SELECTEDMEASURE(), 'Fact_GeneralLedger'[Scenario] = "Budget")
 				VAR _Diff = _Act - _Bud
 				RETURN
 					DIVIDE(_Diff, _Bud)
+
 			formatStringDefinition = "0.0%"
 
 	column 'Scenario View'
 		dataType: string
 		lineageTag: c2a3b4d5-0002-4000-8000-000000000002
-		sourceColumn: [Name]
+		sourceColumn: Name
 		sortByColumn: Ordinal
 
 	column Ordinal
 		dataType: int64
 		isHidden
 		lineageTag: c2a3b4d5-0003-4000-8000-000000000003
-		sourceColumn: [Ordinal]
+		sourceColumn: Ordinal
+

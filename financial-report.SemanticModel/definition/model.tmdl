@@ -1,6 +1,7 @@
 model Model
 	culture: es-ES
 	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
 	sourceQueryCulture: es-CL
 	dataAccessOptions
 		legacyRedirects
@@ -23,8 +24,8 @@ ref table dim_balance_accounts
 ref table fct_balance_sheet_monthly
 ref table fct_sales_subledger
 ref table dim_variance_bridge
+ref table Time_Intelligence
+ref table Scenario_Control
 
 ref cultureInfo es-ES
 
-ref table Time_Intelligence
-ref table Scenario_Control
