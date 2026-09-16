@@ -1,6 +1,21 @@
 ﻿# Corporate FP&A Data Warehouse & Financial Analytics Pipeline
 
-An institutional-grade data modeling and analytical engineering repository built in **SQL** (DuckDB dialect). It bridges raw US-GAAP SEC corporate filings (Forms 10-K / 10-Q) with internal transactional General Ledger (GL) systems to resolve financial reporting inconsistencies, calculate rolling operational metrics, and perform robust Budget vs. Actual variance analysis.
+An institutional-grade data modeling and analytical engineering repository built in **SQL** (DuckDB dialect) and **Power BI** (PBIP format). It bridges raw US-GAAP SEC corporate filings (Forms 10-K / 10-Q) with internal transactional General Ledger (GL) systems to resolve financial reporting inconsistencies, calculate rolling operational metrics, and perform robust Budget vs. Actual variance analysis.
+
+---
+
+## Executive Summary & Dashboard
+
+![FP&A Executive Dashboard Overview](screenshots/fpa_dashboard_overview.png)
+
+### Key Performance Indicators
+* **Net Revenue:** $83M
+* **Gross Margin (%):** 45.4%
+* **EBITDA Margin (%):** -56.3%
+* **Free Cash Flow:** ($4M)
+* **Total Budget Variance:** ($6.47M) adverse variance across consolidated P&L accounts ($46.53M Actual vs. ($40.06M) Budget)
+* **Variance Bridge Analysis:** Visual breakdown isolating EBITDA Budget to Actual drivers (Price Effect, Volume Effect, Cost & OpEx Variance)
+* **Liquidity & Working Capital:** Monthly trend monitoring Net Working Capital alongside Days Sales Outstanding (DSO)
 
 ---
 
@@ -60,6 +75,7 @@ The warehouse follows Kimball dimensional modeling principles to support low-lat
 
 ## Tech Stack & Tooling
 
-* **Engine:** DuckDB / PostgreSQL ANSI SQL
+* **Data Warehouse & ETL:** DuckDB / PostgreSQL ANSI SQL
+* **BI & Semantic Layer:** Microsoft Power BI (PBIP format)
 * **Techniques:** Window Functions (`ROW_NUMBER`, `LAG`, `SUM OVER`), Common Table Expressions (CTEs), Dimensional Star Schema, Recursive Hierarchies
 * **Domain:** Corporate FP&A, SEC US-GAAP Accounting, Financial Statement Analysis, Budget vs. Actual Variance Modeling
