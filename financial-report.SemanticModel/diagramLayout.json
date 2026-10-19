@@ -150,6 +150,32 @@
             "width": 234
           },
           "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1756.050612093255,
+            "y": 268.573351608878
+          },
+          "nodeIndex": "Scenario_Control",
+          "nodeLineageTag": "c2a3b4d5-0001-4000-8000-000000000001",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2040.050612093255,
+            "y": 268.573351608878
+          },
+          "nodeIndex": "Time_Intelligence",
+          "nodeLineageTag": "c1a2b3d4-0001-4000-8000-000000000001",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "Todas las tablas",
